@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome - Jewellery Workflow System{% endblock %}
+
+{% block content %}
+<div class="hero-section text-center py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">
+                    <i class="fas fa-gem text-warning me-3"></i>Confidential Jewellery Workflow
+                </h1>
+                <p class="lead mb-4">
+                    A secure submission, tracking, and resolution workflow system with advanced Hill Cipher encryption for confidential data transfer.
+                </p>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                    <a href="{{ url_for('signup') }}" class="btn btn-warning btn-lg px-4 me-md-2">
+                        <i class="fas fa-user-plus me-2"></i>Get Started
+                    </a>
+                    <a href="{{ url_for('login') }}" class="btn btn-outline-dark btn-lg px-4">
+                        <i class="fas fa-sign-in-alt me-2"></i>Login
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center mt-4 mt-lg-0">
+                <div class="jewellery-icon-container">
+                    <i class="fas fa-ring icon-large text-warning"></i>
+                    <i class="fas fa-gem icon-medium text-info"></i>
+                    <i class="fas fa-crown icon-medium text-danger"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container py-5">
+    <h2 class="text-center mb-5"><i class="fas fa-users me-2"></i>User Roles</h2>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card role-card h-100 shadow">
+                <div class="card-body text-center">
+                    <div class="role-icon mb-3">
+                        <i class="fas fa-user-shield fa-3x text-primary"></i>
+                    </div>
+                    <h4 class="card-title">Administrator</h4>
+                    <p class="card-text">Manage users, oversee submissions, track resolutions, view system logs, and generate reports.</p>
+                    <ul class="list-unstyled text-start">
+                        <li><i class="fas fa-check text-success me-2"></i>User Management</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Submissions Overview</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Resolution Tracking</li>
+                        <li><i class="fas fa-check text-success me-2"></i>System Logs</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Reports & Analytics</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card role-card h-100 shadow">
+                <div class="card-body text-center">
+                    <div class="role-icon mb-3">
+                        <i class="fas fa-store fa-3x text-warning"></i>
+                    </div>
+                    <h4 class="card-title">Jewellery Owner</h4>
+                    <p class="card-text">Submit jewellery requests, track status, communicate securely, and share encrypted files.</p>
+                    <ul class="list-unstyled text-start">
+                        <li><i class="fas fa-check text-success me-2"></i>Submit Requests</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Track Submissions</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Secure Communication</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Encrypted File Transfer</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Profile Management</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card role-card h-100 shadow">
+                <div class="card-body text-center">
+                    <div class="role-icon mb-3">
+                        <i class="fas fa-user fa-3x text-success"></i>
+                    </div>
+                    <h4 class="card-title">Customer</h4>
+                    <p class="card-text">Browse jewellery, submit feedback, track resolution status, and download secure files.</p>
+                    <ul class="list-unstyled text-start">
+                        <li><i class="fas fa-check text-success me-2"></i>Browse Requests</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Submit Feedback</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Track Resolution</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Download Encrypted Files</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Decrypt & Download</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <h2><i class="fas fa-lock me-2 text-warning"></i>Hill Cipher Security</h2>
+            <p class="lead">Your data is protected with advanced Hill Cipher encryption.</p>
+            <p>The Hill cipher is a polygraphic substitution cipher that encrypts blocks of letters using matrix multiplication. This provides strong protection for sensitive jewellery data and confidential communications.</p>
+            <ul>
+                <li><i class="fas fa-shield-alt text-success me-2"></i>Secure file encryption</li>
+                <li><i class="fas fa-envelope text-success me-2"></i>Encrypted messaging</li>
+                <li><i class="fas fa-key text-success me-2"></i>Safe data transfer between users</li>
+            </ul>
+        </div>
+        <div class="col-md-6 text-center">
+            <div class="security-badge">
+                <i class="fas fa-shield-alt fa-5x text-warning"></i>
+                <h4 class="mt-3">HILL CIPHER</h4>
+                <p class="text-muted">Matrix-based Encryption</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

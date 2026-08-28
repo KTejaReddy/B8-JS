@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block title %}Reports - Jewellery Workflow{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="sidebar rounded">
+            <nav class="nav flex-column">
+                <a class="nav-link" href="{{ url_for('admin_dashboard') }}">
+                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                </a>
+                <a class="nav-link" href="{{ url_for('admin_users') }}">
+                    <i class="fas fa-users me-2"></i>User Management
+                </a>
+                <a class="nav-link" href="{{ url_for('admin_submissions') }}">
+                    <i class="fas fa-gem me-2"></i>Submissions
+                </a>
+                <a class="nav-link" href="{{ url_for('admin_resolution') }}">
+                    <i class="fas fa-check-circle me-2"></i>Resolution
+                </a>
+                <a class="nav-link" href="{{ url_for('admin_logs') }}">
+                    <i class="fas fa-history me-2"></i>System Logs
+                </a>
+                <a class="nav-link active" href="{{ url_for('admin_reports') }}">
+                    <i class="fas fa-chart-bar me-2"></i>Reports
+                </a>
+            </nav>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="page-header">
+            <h2><i class="fas fa-chart-bar me-2"></i>Reports & Analytics</h2>
+            <p class="mb-0">System statistics and reports</p>
+        </div>
+        
+        <div class="row g-4 mb-4">
+            <div class="col-md-4">
+                <div class="stat-card primary">
+                    <i class="fas fa-users fa-2x mb-2"></i>
+                    <div class="stat-number">{{ stats.total_users }}</div>
+                    <div>Total Users</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card warning">
+                    <i class="fas fa-gem fa-2x mb-2"></i>
+                    <div class="stat-number">{{ stats.total_submissions }}</div>
+                    <div>Total Submissions</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card success">
+                    <i class="fas fa-check-circle fa-2x mb-2"></i>
+                    <div class="stat-number">{{ stats.resolved }}</div>
+                    <div>Resolved</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row g-4 mb-4">
+            <div class="col-md-6">
+                <div class="card dashboard-card">
+                    <div class="card-header bg-warning">
+                        <h5 class="mb-0"><i class="fas fa-users me-2"></i>Users by Role</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span><i class="fas fa-user-shield me-2 text-primary"></i>Administrators</span>
+                            <span class="badge bg-primary">{{ stats.administrators }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span><i class="fas fa-store me-2 text-warning"></i>Jewellery Owners</span>
+                            <span class="badge bg-warning text-dark">{{ stats.owners }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span><i class="fas fa-user me-2 text-success"></i>Customers</span>
+                            <span class="badge bg-success">{{ stats.customers }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card dashboard-card">
+                    <div class="card-header bg-warning">
+                        <h5 class="mb-0"><i class="fas fa-chart-pie me-2"></i>Submissions by Status</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span><i class="fas fa-clock me-2 text-warning"></i>Pending</span>
+                            <span class="status-pending">{{ stats.pending }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span><i class="fas fa-spinner me-2 text-info"></i>In Progress</span>
+                            <span class="status-in_progress">{{ stats.in_progress }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span><i class="fas fa-check me-2 text-success"></i>Resolved</span>
+                            <span class="status-resolved">{{ stats.resolved }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card dashboard-card">
+            <div class="card-body text-center">
+                <i class="fas fa-shield-alt fa-3x text-warning mb-3"></i>
+                <h4>Hill Cipher Encryption Active</h4>
+                <p class="text-muted">All sensitive data transfers are protected with Hill Cipher cryptography</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block title %}Submit Request - Jewellery Workflow{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="sidebar rounded">
+            <nav class="nav flex-column">
+                <a class="nav-link" href="{{ url_for('owner_dashboard') }}">
+                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                </a>
+                <a class="nav-link active" href="{{ url_for('owner_submit') }}">
+                    <i class="fas fa-plus-circle me-2"></i>Submit Request
+                </a>
+                <a class="nav-link" href="{{ url_for('owner_track') }}">
+                    <i class="fas fa-search me-2"></i>Track Submissions
+                </a>
+                <a class="nav-link" href="{{ url_for('owner_communication') }}">
+                    <i class="fas fa-comments me-2"></i>Communication
+                </a>
+                <a class="nav-link" href="{{ url_for('owner_files') }}">
+                    <i class="fas fa-file-upload me-2"></i>File Transfer
+                </a>
+                <a class="nav-link" href="{{ url_for('owner_profile') }}">
+                    <i class="fas fa-user-cog me-2"></i>Profile
+                </a>
+            </nav>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="page-header">
+            <h2><i class="fas fa-plus-circle me-2"></i>Submit Jewellery Request</h2>
+            <p class="mb-0">Create a new jewellery submission</p>
+        </div>
+        
+        <div class="card dashboard-card">
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('owner_submit') }}">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="title" class="form-label">
+                                <i class="fas fa-heading me-1"></i>Title
+                            </label>
+                            <input type="text" class="form-control" id="title" name="title" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="jewellery_type" class="form-label">
+                                <i class="fas fa-gem me-1"></i>Jewellery Type
+                            </label>
+                            <select class="form-select" id="jewellery_type" name="jewellery_type" required>
+                                <option value="">Select type...</option>
+                                <option value="Ring">Ring</option>
+                                <option value="Necklace">Necklace</option>
+                                <option value="Bracelet">Bracelet</option>
+                                <option value="Earrings">Earrings</option>
+                                <option value="Pendant">Pendant</option>
+                                <option value="Watch">Watch</option>
+                                <option value="Brooch">Brooch</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="material" class="form-label">
+                                <i class="fas fa-cube me-1"></i>Material
+                            </label>
+                            <select class="form-select" id="material" name="material" required>
+                                <option value="">Select material...</option>
+                                <option value="Gold">Gold</option>
+                                <option value="Silver">Silver</option>
+                                <option value="Platinum">Platinum</option>
+                                <option value="Diamond">Diamond</option>
+                                <option value="Pearl">Pearl</option>
+                                <option value="Mixed">Mixed</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="weight" class="form-label">
+                                <i class="fas fa-balance-scale me-1"></i>Weight (grams)
+                            </label>
+                            <input type="number" step="0.01" class="form-control" id="weight" name="weight" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="estimated_value" class="form-label">
+                                <i class="fas fa-dollar-sign me-1"></i>Estimated Value ($)
+                            </label>
+                            <input type="number" step="0.01" class="form-control" id="estimated_value" name="estimated_value" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">
+                            <i class="fas fa-align-left me-1"></i>Description
+                        </label>
+                        <textarea class="form-control" id="description" name="description" rows="4" required placeholder="Describe the jewellery item in detail..."></textarea>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-warning btn-lg">
+                            <i class="fas fa-paper-plane me-2"></i>Submit Request
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

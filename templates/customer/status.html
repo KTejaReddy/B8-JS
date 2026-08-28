@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block title %}Track Status - Jewellery Workflow{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="sidebar rounded">
+            <nav class="nav flex-column">
+                <a class="nav-link" href="{{ url_for('customer_dashboard') }}">
+                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                </a>
+                <a class="nav-link" href="{{ url_for('customer_browse') }}">
+                    <i class="fas fa-search me-2"></i>Browse Requests
+                </a>
+                <a class="nav-link" href="{{ url_for('customer_feedback') }}">
+                    <i class="fas fa-star me-2"></i>Submit Feedback
+                </a>
+                <a class="nav-link active" href="{{ url_for('customer_status') }}">
+                    <i class="fas fa-tasks me-2"></i>Track Status
+                </a>
+                <a class="nav-link" href="{{ url_for('customer_files') }}">
+                    <i class="fas fa-file-download me-2"></i>My Files
+                </a>
+                <a class="nav-link" href="{{ url_for('customer_communication') }}">
+                    <i class="fas fa-comments me-2"></i>Communication
+                </a>
+                <a class="nav-link" href="{{ url_for('customer_profile') }}">
+                    <i class="fas fa-user-cog me-2"></i>Profile
+                </a>
+            </nav>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="page-header">
+            <h2><i class="fas fa-tasks me-2"></i>Track Resolution Status</h2>
+            <p class="mb-0">Monitor the progress of jewellery submissions</p>
+        </div>
+        
+        <div class="row g-4 mb-4">
+            <div class="col-md-4">
+                <div class="stat-card warning">
+                    <i class="fas fa-clock fa-2x mb-2"></i>
+                    <div class="stat-number">{{ submissions|selectattr('status', 'equalto', 'pending')|list|length }}</div>
+                    <div>Pending</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card info">
+                    <i class="fas fa-spinner fa-2x mb-2"></i>
+                    <div class="stat-number">{{ submissions|selectattr('status', 'equalto', 'in_progress')|list|length }}</div>
+                    <div>In Progress</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card success">
+                    <i class="fas fa-check fa-2x mb-2"></i>
+                    <div class="stat-number">{{ submissions|selectattr('status', 'equalto', 'resolved')|list|length }}</div>
+                    <div>Resolved</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card dashboard-card">
+            <div class="card-header bg-warning">
+                <h5 class="mb-0"><i class="fas fa-list me-2"></i>All Submissions Status</h5>
+            </div>
+            <div class="card-body">
+                {% if submissions %}
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Owner</th>
+                                <th>Type</th>
+                                <th>Submitted</th>
+                                <th>Status</th>
+                                <th>Resolution Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for sub in submissions %}
+                            <tr>
+                                <td><i class="fas fa-ring text-warning me-1"></i>{{ sub.title }}</td>
+                                <td>{{ sub.owner_name }}</td>
+                                <td>{{ sub.jewellery_type }}</td>
+                                <td>{{ sub.created_at[:10] }}</td>
+                                <td><span class="status-{{ sub.status }}">{{ sub.status|replace('_', ' ')|title }}</span></td>
+                                <td>{{ sub.resolution_notes or '-' }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-tasks fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">No submissions to track yet.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

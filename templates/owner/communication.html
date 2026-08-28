@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block title %}Communication - Jewellery Workflow{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="sidebar rounded">
+            <nav class="nav flex-column">
+                <a class="nav-link" href="{{ url_for('owner_dashboard') }}">
+                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                </a>
+                <a class="nav-link" href="{{ url_for('owner_submit') }}">
+                    <i class="fas fa-plus-circle me-2"></i>Submit Request
+                </a>
+                <a class="nav-link" href="{{ url_for('owner_track') }}">
+                    <i class="fas fa-search me-2"></i>Track Submissions
+                </a>
+                <a class="nav-link active" href="{{ url_for('owner_communication') }}">
+                    <i class="fas fa-comments me-2"></i>Communication
+                </a>
+                <a class="nav-link" href="{{ url_for('owner_files') }}">
+                    <i class="fas fa-file-upload me-2"></i>File Transfer
+                </a>
+                <a class="nav-link" href="{{ url_for('owner_profile') }}">
+                    <i class="fas fa-user-cog me-2"></i>Profile
+                </a>
+            </nav>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="page-header">
+            <h2><i class="fas fa-comments me-2"></i>Secure Communication</h2>
+            <p class="mb-0">Send encrypted messages to customers and administrators</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-5">
+                <div class="card dashboard-card mb-4">
+                    <div class="card-header bg-warning">
+                        <h5 class="mb-0"><i class="fas fa-paper-plane me-2"></i>Send Message</h5>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="{{ url_for('owner_send_message') }}">
+                            <div class="mb-3">
+                                <label class="form-label">Send To</label>
+                                <select name="receiver_id" class="form-select" required>
+                                    <option value="">Select recipient...</option>
+                                    <optgroup label="Customers">
+                                        {% for customer in customers %}
+                                            <option value="{{ customer.doc_id }}">{{ customer.name }} (Customer)</option>
+                                        {% endfor %}
+                                    </optgroup>
+                                    <optgroup label="Administrators">
+                                        {% for admin in admins %}
+                                            <option value="{{ admin.doc_id }}">{{ admin.name }} (Admin)</option>
+                                        {% endfor %}
+                                    </optgroup>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Message</label>
+                                <textarea name="content" class="form-control" rows="4" required placeholder="Type your message..."></textarea>
+                            </div>
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="encrypt" name="encrypt">
+                                <label class="form-check-label" for="encrypt">
+                                    <i class="fas fa-lock me-1"></i>Encrypt with Hill Cipher
+                                </label>
+                            </div>
+                            <button type="submit" class="btn btn-warning w-100">
+                                <i class="fas fa-paper-plane me-1"></i>Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="card dashboard-card">
+                    <div class="card-header bg-warning">
+                        <h5 class="mb-0"><i class="fas fa-inbox me-2"></i>Messages</h5>
+                    </div>
+                    <div class="card-body" style="max-height: 500px; overflow-y: auto;">
+                        {% if messages %}
+                            {% for msg in messages|reverse %}
+                            <div class="message-card {% if msg.is_encrypted %}encrypted{% endif %}">
+                                <div class="d-flex justify-content-between">
+                                    <strong>
+                                        {% if msg.sender_id == session.user_id %}
+                                            <i class="fas fa-arrow-right text-success me-1"></i>You
+                                        {% else %}
+                                            <i class="fas fa-arrow-left text-primary me-1"></i>{{ msg.sender_name }}
+                                        {% endif %}
+                                    </strong>
+                                    <small class="text-muted">{{ msg.timestamp[:16] }}</small>
+                                </div>
+                                <p class="mb-1 mt-2">{{ msg.content }}</p>
+                                {% if msg.is_encrypted %}
+                                    <span class="encrypted-badge">
+                                        <i class="fas fa-lock me-1"></i>Encrypted
+                                    </span>
+                                    <button class="btn btn-sm btn-outline-secondary ms-2" onclick="decryptMessage({{ msg.doc_id }})">
+                                        <i class="fas fa-unlock me-1"></i>Decrypt
+                                    </button>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="text-center py-4">
+                                <i class="fas fa-comments fa-3x text-muted mb-3"></i>
+                                <p class="text-muted">No messages yet.</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

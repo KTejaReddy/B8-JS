@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}Browse Requests - Jewellery Workflow{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="sidebar rounded">
+            <nav class="nav flex-column">
+                <a class="nav-link" href="{{ url_for('customer_dashboard') }}">
+                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                </a>
+                <a class="nav-link active" href="{{ url_for('customer_browse') }}">
+                    <i class="fas fa-search me-2"></i>Browse Requests
+                </a>
+                <a class="nav-link" href="{{ url_for('customer_feedback') }}">
+                    <i class="fas fa-star me-2"></i>Submit Feedback
+                </a>
+                <a class="nav-link" href="{{ url_for('customer_status') }}">
+                    <i class="fas fa-tasks me-2"></i>Track Status
+                </a>
+                <a class="nav-link" href="{{ url_for('customer_files') }}">
+                    <i class="fas fa-file-download me-2"></i>My Files
+                </a>
+                <a class="nav-link" href="{{ url_for('customer_communication') }}">
+                    <i class="fas fa-comments me-2"></i>Communication
+                </a>
+                <a class="nav-link" href="{{ url_for('customer_profile') }}">
+                    <i class="fas fa-user-cog me-2"></i>Profile
+                </a>
+            </nav>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="page-header">
+            <h2><i class="fas fa-search me-2"></i>Browse Jewellery Requests</h2>
+            <p class="mb-0">Explore all available jewellery submissions</p>
+        </div>
+        
+        {% if submissions %}
+            <div class="row g-4">
+                {% for sub in submissions %}
+                <div class="col-md-6">
+                    <div class="card dashboard-card h-100">
+                        <div class="card-header bg-warning d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0"><i class="fas fa-ring me-2"></i>{{ sub.title }}</h5>
+                            <span class="status-{{ sub.status }}">{{ sub.status|replace('_', ' ')|title }}</span>
+                        </div>
+                        <div class="card-body">
+                            <p><i class="fas fa-user text-primary me-2"></i><strong>Owner:</strong> {{ sub.owner_name }}</p>
+                            <p><i class="fas fa-gem text-warning me-2"></i><strong>Type:</strong> {{ sub.jewellery_type }}</p>
+                            <p><i class="fas fa-cube text-info me-2"></i><strong>Material:</strong> {{ sub.material }}</p>
+                            <p><i class="fas fa-balance-scale text-secondary me-2"></i><strong>Weight:</strong> {{ sub.weight }}g</p>
+                            <p><i class="fas fa-dollar-sign text-success me-2"></i><strong>Value:</strong> ${{ sub.estimated_value }}</p>
+                            <hr>
+                            <p class="text-muted small mb-0"><i class="fas fa-align-left me-2"></i>{{ sub.description[:100] }}{% if sub.description|length > 100 %}...{% endif %}</p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted"><i class="fas fa-calendar me-1"></i>Submitted: {{ sub.created_at[:10] }}</small>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="card dashboard-card">
+                <div class="card-body text-center py-5">
+                    <i class="fas fa-search fa-4x text-muted mb-3"></i>
+                    <p class="text-muted">No jewellery requests available yet.</p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

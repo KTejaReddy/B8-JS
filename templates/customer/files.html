@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}My Files - Jewellery Workflow{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="sidebar rounded">
+            <nav class="nav flex-column">
+                <a class="nav-link" href="{{ url_for('customer_dashboard') }}">
+                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                </a>
+                <a class="nav-link" href="{{ url_for('customer_browse') }}">
+                    <i class="fas fa-search me-2"></i>Browse Requests
+                </a>
+                <a class="nav-link" href="{{ url_for('customer_feedback') }}">
+                    <i class="fas fa-star me-2"></i>Submit Feedback
+                </a>
+                <a class="nav-link" href="{{ url_for('customer_status') }}">
+                    <i class="fas fa-tasks me-2"></i>Track Status
+                </a>
+                <a class="nav-link active" href="{{ url_for('customer_files') }}">
+                    <i class="fas fa-file-download me-2"></i>My Files
+                </a>
+                <a class="nav-link" href="{{ url_for('customer_communication') }}">
+                    <i class="fas fa-comments me-2"></i>Communication
+                </a>
+                <a class="nav-link" href="{{ url_for('customer_profile') }}">
+                    <i class="fas fa-user-cog me-2"></i>Profile
+                </a>
+            </nav>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="page-header">
+            <h2><i class="fas fa-file-download me-2"></i>My Secure Files</h2>
+            <p class="mb-0">Download encrypted files or decrypt them using Hill Cipher</p>
+        </div>
+        
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card dashboard-card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-shield-alt fa-3x text-warning mb-3"></i>
+                        <h5>Hill Cipher Decryption</h5>
+                        <p class="text-muted">Files shared with you are encrypted. You can download the encrypted version or decrypt it securely.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card dashboard-card">
+            <div class="card-header bg-warning">
+                <h5 class="mb-0"><i class="fas fa-folder me-2"></i>Files Shared With Me</h5>
+            </div>
+            <div class="card-body">
+                {% if files %}
+                    {% for file in files %}
+                    <div class="file-card">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <h5><i class="fas fa-file-alt text-warning me-2"></i>{{ file.original_filename }}</h5>
+                                <p class="text-muted small mb-1">From: {{ file.owner_name }}</p>
+                                <p class="text-muted small mb-0">{{ file.description or 'No description' }}</p>
+                                <small class="text-muted">Received: {{ file.uploaded_at[:16] }}</small>
+                            </div>
+                            <div class="col-md-6 text-end">
+                                <div class="btn-group">
+                                    <a href="{{ url_for('customer_download_encrypted', file_id=file.doc_id) }}" class="btn btn-outline-secondary">
+                                        <i class="fas fa-lock me-1"></i>Download Encrypted
+                                    </a>
+                                    <a href="{{ url_for('customer_download_decrypted', file_id=file.doc_id) }}" class="btn btn-warning">
+                                        <i class="fas fa-unlock me-1"></i>Download Decrypted
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-folder-open fa-4x text-muted mb-3"></i>
+                        <h5 class="text-muted">No files shared with you yet</h5>
+                        <p class="text-muted">When a jewellery owner shares files with you, they will appear here.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

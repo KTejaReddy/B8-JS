@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard - Jewellery Workflow{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="sidebar rounded">
+            <nav class="nav flex-column">
+                <a class="nav-link active" href="{{ url_for('admin_dashboard') }}">
+                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                </a>
+                <a class="nav-link" href="{{ url_for('admin_users') }}">
+                    <i class="fas fa-users me-2"></i>User Management
+                </a>
+                <a class="nav-link" href="{{ url_for('admin_submissions') }}">
+                    <i class="fas fa-gem me-2"></i>Submissions
+                </a>
+                <a class="nav-link" href="{{ url_for('admin_resolution') }}">
+                    <i class="fas fa-check-circle me-2"></i>Resolution
+                </a>
+                <a class="nav-link" href="{{ url_for('admin_logs') }}">
+                    <i class="fas fa-history me-2"></i>System Logs
+                </a>
+                <a class="nav-link" href="{{ url_for('admin_reports') }}">
+                    <i class="fas fa-chart-bar me-2"></i>Reports
+                </a>
+            </nav>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="page-header">
+            <h2><i class="fas fa-tachometer-alt me-2"></i>Administrator Dashboard</h2>
+            <p class="mb-0">Welcome back, {{ session.name }}!</p>
+        </div>
+        
+        <div class="row g-4 mb-4">
+            <div class="col-md-4">
+                <div class="stat-card primary">
+                    <i class="fas fa-users fa-2x mb-2"></i>
+                    <div class="stat-number">{{ users|length }}</div>
+                    <div>Total Users</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card warning">
+                    <i class="fas fa-gem fa-2x mb-2"></i>
+                    <div class="stat-number">{{ submissions|length }}</div>
+                    <div>Total Submissions</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card success">
+                    <i class="fas fa-check-circle fa-2x mb-2"></i>
+                    <div class="stat-number">{{ submissions|selectattr('status', 'equalto', 'resolved')|list|length }}</div>
+                    <div>Resolved</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card dashboard-card">
+            <div class="card-header bg-warning">
+                <h5 class="mb-0"><i class="fas fa-clock me-2"></i>Recent Submissions</h5>
+            </div>
+            <div class="card-body">
+                {% if submissions %}
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Owner</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for sub in submissions[-5:]|reverse %}
+                            <tr>
+                                <td>{{ sub.title }}</td>
+                                <td>{{ sub.owner_name }}</td>
+                                <td>{{ sub.jewellery_type }}</td>
+                                <td><span class="status-{{ sub.status }}">{{ sub.status|replace('_', ' ')|title }}</span></td>
+                                <td>{{ sub.created_at[:10] }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p class="text-center text-muted">No submissions yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}Resolution Tracking - Jewellery Workflow{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="sidebar rounded">
+            <nav class="nav flex-column">
+                <a class="nav-link" href="{{ url_for('admin_dashboard') }}">
+                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                </a>
+                <a class="nav-link" href="{{ url_for('admin_users') }}">
+                    <i class="fas fa-users me-2"></i>User Management
+                </a>
+                <a class="nav-link" href="{{ url_for('admin_submissions') }}">
+                    <i class="fas fa-gem me-2"></i>Submissions
+                </a>
+                <a class="nav-link active" href="{{ url_for('admin_resolution') }}">
+                    <i class="fas fa-check-circle me-2"></i>Resolution
+                </a>
+                <a class="nav-link" href="{{ url_for('admin_logs') }}">
+                    <i class="fas fa-history me-2"></i>System Logs
+                </a>
+                <a class="nav-link" href="{{ url_for('admin_reports') }}">
+                    <i class="fas fa-chart-bar me-2"></i>Reports
+                </a>
+            </nav>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="page-header">
+            <h2><i class="fas fa-check-circle me-2"></i>Resolution Tracking</h2>
+            <p class="mb-0">Update and track submission resolutions</p>
+        </div>
+        
+        {% if submissions %}
+            {% for sub in submissions %}
+            <div class="card dashboard-card mb-3">
+                <div class="card-header bg-warning d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-ring me-2"></i>{{ sub.title }}</h5>
+                    <span class="status-{{ sub.status }}">{{ sub.status|replace('_', ' ')|title }}</span>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Owner:</strong> {{ sub.owner_name }}</p>
+                            <p><strong>Type:</strong> {{ sub.jewellery_type }}</p>
+                            <p><strong>Material:</strong> {{ sub.material }}</p>
+                            <p><strong>Description:</strong> {{ sub.description }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <form method="POST" action="{{ url_for('admin_update_resolution', sub_id=sub.doc_id) }}">
+                                <div class="mb-3">
+                                    <label class="form-label">Update Status</label>
+                                    <select name="status" class="form-select">
+                                        <option value="pending" {% if sub.status == 'pending' %}selected{% endif %}>Pending</option>
+                                        <option value="in_progress" {% if sub.status == 'in_progress' %}selected{% endif %}>In Progress</option>
+                                        <option value="resolved" {% if sub.status == 'resolved' %}selected{% endif %}>Resolved</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Resolution Notes</label>
+                                    <textarea name="resolution_notes" class="form-control" rows="2">{{ sub.resolution_notes or '' }}</textarea>
+                                </div>
+                                <button type="submit" class="btn btn-warning">
+                                    <i class="fas fa-save me-1"></i>Update Resolution
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="card dashboard-card">
+                <div class="card-body text-center py-5">
+                    <i class="fas fa-check-circle fa-4x text-muted mb-3"></i>
+                    <p class="text-muted">No submissions to resolve.</p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

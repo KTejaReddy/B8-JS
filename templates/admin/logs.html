@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}System Logs - Jewellery Workflow{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="sidebar rounded">
+            <nav class="nav flex-column">
+                <a class="nav-link" href="{{ url_for('admin_dashboard') }}">
+                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                </a>
+                <a class="nav-link" href="{{ url_for('admin_users') }}">
+                    <i class="fas fa-users me-2"></i>User Management
+                </a>
+                <a class="nav-link" href="{{ url_for('admin_submissions') }}">
+                    <i class="fas fa-gem me-2"></i>Submissions
+                </a>
+                <a class="nav-link" href="{{ url_for('admin_resolution') }}">
+                    <i class="fas fa-check-circle me-2"></i>Resolution
+                </a>
+                <a class="nav-link active" href="{{ url_for('admin_logs') }}">
+                    <i class="fas fa-history me-2"></i>System Logs
+                </a>
+                <a class="nav-link" href="{{ url_for('admin_reports') }}">
+                    <i class="fas fa-chart-bar me-2"></i>Reports
+                </a>
+            </nav>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="page-header">
+            <h2><i class="fas fa-history me-2"></i>System Logs</h2>
+            <p class="mb-0">View all system activity</p>
+        </div>
+        
+        <div class="card dashboard-card">
+            <div class="card-body">
+                {% if logs %}
+                    {% for log in logs[:50] %}
+                    <div class="log-entry {{ log.action }}">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                {% if log.action == 'login' %}
+                                    <i class="fas fa-sign-in-alt text-success me-2"></i>
+                                {% elif log.action == 'logout' %}
+                                    <i class="fas fa-sign-out-alt text-danger me-2"></i>
+                                {% elif log.action == 'upload_file' %}
+                                    <i class="fas fa-upload text-primary me-2"></i>
+                                {% elif log.action == 'download_decrypted' %}
+                                    <i class="fas fa-download text-info me-2"></i>
+                                {% else %}
+                                    <i class="fas fa-cog text-secondary me-2"></i>
+                                {% endif %}
+                                <strong>{{ log.action|replace('_', ' ')|title }}</strong>
+                            </div>
+                            <small class="text-muted">{{ log.timestamp[:19] }}</small>
+                        </div>
+                        <p class="mb-0 mt-1 text-muted small">{{ log.details }}</p>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-history fa-4x text-muted mb-3"></i>
+                        <p class="text-muted">No system logs yet.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

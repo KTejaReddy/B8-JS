@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block title %}Submit Feedback - Jewellery Workflow{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="sidebar rounded">
+            <nav class="nav flex-column">
+                <a class="nav-link" href="{{ url_for('customer_dashboard') }}">
+                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                </a>
+                <a class="nav-link" href="{{ url_for('customer_browse') }}">
+                    <i class="fas fa-search me-2"></i>Browse Requests
+                </a>
+                <a class="nav-link active" href="{{ url_for('customer_feedback') }}">
+                    <i class="fas fa-star me-2"></i>Submit Feedback
+                </a>
+                <a class="nav-link" href="{{ url_for('customer_status') }}">
+                    <i class="fas fa-tasks me-2"></i>Track Status
+                </a>
+                <a class="nav-link" href="{{ url_for('customer_files') }}">
+                    <i class="fas fa-file-download me-2"></i>My Files
+                </a>
+                <a class="nav-link" href="{{ url_for('customer_communication') }}">
+                    <i class="fas fa-comments me-2"></i>Communication
+                </a>
+                <a class="nav-link" href="{{ url_for('customer_profile') }}">
+                    <i class="fas fa-user-cog me-2"></i>Profile
+                </a>
+            </nav>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="page-header">
+            <h2><i class="fas fa-star me-2"></i>Submit Feedback</h2>
+            <p class="mb-0">Share your experience with jewellery submissions</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-5">
+                <div class="card dashboard-card mb-4">
+                    <div class="card-header bg-warning">
+                        <h5 class="mb-0"><i class="fas fa-comment me-2"></i>New Feedback</h5>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="{{ url_for('customer_feedback') }}">
+                            <div class="mb-3">
+                                <label class="form-label">Select Submission</label>
+                                <select name="submission_id" class="form-select" required>
+                                    <option value="">Choose a submission...</option>
+                                    {% for sub in submissions %}
+                                        <option value="{{ sub.doc_id }}">{{ sub.title }} - {{ sub.owner_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Rating</label>
+                                <select name="rating" class="form-select" required>
+                                    <option value="">Select rating...</option>
+                                    <option value="5">5 Stars - Excellent</option>
+                                    <option value="4">4 Stars - Very Good</option>
+                                    <option value="3">3 Stars - Good</option>
+                                    <option value="2">2 Stars - Fair</option>
+                                    <option value="1">1 Star - Poor</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Your Feedback</label>
+                                <textarea name="comment" class="form-control" rows="4" required placeholder="Share your experience..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-warning w-100">
+                                <i class="fas fa-paper-plane me-1"></i>Submit Feedback
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="card dashboard-card">
+                    <div class="card-header bg-warning">
+                        <h5 class="mb-0"><i class="fas fa-history me-2"></i>My Feedback History</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if my_feedback %}
+                            {% for fb in my_feedback|reverse %}
+                            <div class="file-card">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <div class="rating-stars mb-2">
+                                            {% for i in range(fb.rating) %}
+                                                <i class="fas fa-star"></i>
+                                            {% endfor %}
+                                            {% for i in range(5 - fb.rating) %}
+                                                <i class="far fa-star"></i>
+                                            {% endfor %}
+                                        </div>
+                                        <p class="mb-1">{{ fb.comment }}</p>
+                                    </div>
+                                </div>
+                                <small class="text-muted">{{ fb.created_at[:16] }}</small>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="text-center py-4">
+                                <i class="fas fa-star fa-3x text-muted mb-3"></i>
+                                <p class="text-muted">You haven't submitted any feedback yet.</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
